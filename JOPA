@@ -1,0 +1,90 @@
+import tkinter as tk
+import sqlite3
+from tkinter import ttk
+import datetime
+
+import mysql.connector
+
+mydb = mysql.connector.connect(host='localhost', user='root',passwd='123456',auth_plugin='mysql_native_password', database='carsharing')
+
+mycursor=mydb.cursor()
+
+
+def add_client():
+    root1 = tk.Tk()
+    root1.title('Client Adder')
+    root1.geometry("500x350+150+200")
+    id0=tk.StringVar()
+    fname0 = tk.StringVar()
+    lname0 = tk.StringVar()
+    sname0=tk.StringVar()
+    passid0=tk.StringVar()
+    hiredate0=tk.StringVar()
+    birthdate0=tk.StringVar()
+    contrid0=tk.StringVar()
+    licd0=tk.StringVar()
+
+
+    l1 = tk.Label(root1, text='ID клиента')
+    l1.place(x=20,y=10)
+    id=tk.Entry(root1, textvariable=id0)#работает
+    id.place(x=190,y=13)
+
+
+
+    l2 = tk.Label(root1, text='Фамилия клиента')
+    l2.place(x=20, y=40)
+    fname = tk.Entry(root1, textvariable=fname0)  # работает
+    fname.place(x=190,y=41)
+
+
+
+    l3 = tk.Label(root1, text='Имя клиента')
+    l3.place(x=20, y=80)
+    lname = tk.Entry(root1, textvariable=lname0)  # работает
+    lname.place(x=190,y=80)
+
+
+
+    l4 = tk.Label(root1, text='Отчество клиента')
+    l4.place(x=20, y=110)
+    sname=tk.Entry(root1, textvariable=sname0)#работает
+    sname.place(x=190,y=110)
+
+    l5 = tk.Label(root1, text='Pass ID')
+    l5.place(x=20, y=140)
+    passid=tk.Entry(root1, textvariable=passid0)#работает
+    passid.place(x=190,y=140)
+
+
+
+    l6 = tk.Label(root1, text='ID контракта')
+    l6.place(x=20, y=170)
+    hiredate=tk.Entry(root1, textvariable=hiredate0)#работает
+    hiredate.place(x=190,y=170)
+
+
+
+    l7 = tk.Label(root1, text='Дата Рождения')
+    l7.place(x=20, y=200)
+    birthdate=tk.Entry(root1, textvariable=birthdate0)#работает
+    birthdate.place(x=190,y=200)
+
+
+    l8 = tk.Label(root1, text='Номер вод. удостоверения')
+    l8.place(x=20, y=230)
+    contrid=tk.Entry(root1, textvariable=contrid0)#работает
+    contrid.place(x=190, y=230)
+
+    btn_conf = ttk.Button(root1, text='Add')
+    btn_conf.place(x=220, y=297)
+    btn_conf.bind('<Button-1>', lambda event: rec_client(id.get(), fname.get(), lname.get(),sname.get(),passid.get(),(hiredate.get()),birthdate.get(), (contrid.get())))
+    btn_ex = tk.Button(root1, text='Exit', command=root1.destroy)
+    btn_ex.pack()
+    btn_ex.place(x=300, y=297)
+    # кнопка выход из окна
+    root1.mainloop()
+    
+ def rec_client(q,w,e,r,t,y,u,i):
+    mycursor.execute('INSERT INTO `clients` (`idclients`, `first_name`, `last_name`, `middle_name`, `pass_id`, `contract_id`, `birth_date`, `drivers_license_id`) VALUES (%i,%s,%s,%s,%i,%s,%i,%i)',
+                     (int(q),w,e,r,int(t),y,int(u),int(i)))
